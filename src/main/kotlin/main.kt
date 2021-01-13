@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -30,13 +29,15 @@ fun main() {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val firstImagePath = getRandomImagePath(null)
+                val secondImagePath = getRandomImagePath(firstImagePath)
                 Image(
-                    bitmap = loadRandomImage(),
+                    bitmap = imageResource(firstImagePath),
                     modifier = Modifier.preferredHeight(500.dp).preferredWidth(500.dp),
                     alignment = Alignment.Center
                 )
                 Image(
-                    bitmap = loadRandomImage(),
+                    bitmap = imageResource(secondImagePath),
                     modifier = Modifier.preferredHeight(500.dp).preferredWidth(500.dp),
                     alignment = Alignment.Center
                 )
@@ -57,15 +58,18 @@ fun getWindowIcon(): BufferedImage {
 }
 
 @Composable
-fun loadRandomImage(): ImageBitmap {
+fun getRandomImagePath(otherImagePath: String?): String {
     val classLoader = Util::class.java.classLoader
     val url = classLoader.getResource("pictureDeck") ?: throw FileNotFoundException("Cannot find the pictureDeck")
 
     val file = File(url.file)
-    val pictures = file.listFiles() ?: throw FileNotFoundException("No pictures in the pictureDeck")
+    val imagePaths = file.listFiles() ?: throw FileNotFoundException("No pictures in the pictureDeck")
+    var imagePath: String
 
-    val index = Random.nextInt(pictures.size)
-    val picture = pictures.get(index)
+    do {
+        val index = Random.nextInt(imagePaths.size)
+        imagePath = "pictureDeck/" + imagePaths[index].name
+    } while (imagePath == otherImagePath)
 
-    return imageResource("pictureDeck/" + picture.name)
+    return imagePath
 }
