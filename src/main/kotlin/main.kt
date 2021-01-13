@@ -67,7 +67,5 @@ fun loadRandomImage(): ImageBitmap {
     val index = Random.nextInt(pictures.size)
     val picture = pictures.get(index)
 
-    val image = imageResource("pictureDeck/" + picture.name)
-
-    return image
+    return imageResource("pictureDeck/" + picture.name)
 }
