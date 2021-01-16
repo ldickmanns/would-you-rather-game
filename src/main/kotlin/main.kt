@@ -1,6 +1,7 @@
 import androidx.compose.desktop.Window
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,13 +25,13 @@ fun main() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
+            val firstImagePath = getRandomImagePath(null)
+            val secondImagePath = getRandomImagePath(firstImagePath)
             Row(
                 modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val firstImagePath = getRandomImagePath(null)
-                val secondImagePath = getRandomImagePath(firstImagePath)
                 Image(
                     bitmap = imageResource(firstImagePath),
                     modifier = Modifier.preferredHeight(500.dp).preferredWidth(500.dp),
